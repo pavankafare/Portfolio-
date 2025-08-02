@@ -1,3 +1,4 @@
+"use client";
 import Card from "@/components/Card";
 import SectionHeader from "@/components/SectionHeader";
 import StarIcon from "@/assets/icons/star.svg";
@@ -9,11 +10,12 @@ import CssIcon from "@/assets/icons/css3.svg";
 import ReactIcon from "@/assets/icons/react.svg";
 import ChromeIcon from "@/assets/icons/chrome.svg";
 import GithubIcon from "@/assets/icons/github.svg";
-import TechIcon from "@/components/TechIcon";
 import MapImage from "@/assets/images/map.png";
 import smileemoji from "@/assets/images/memoji-smile.png"
 import CardHeader from "@/components/CardHeader";
 import ToolBoxItem from "@/components/ToolBoxItem";
+import {motion } from "framer-motion";
+import { useRef } from "react";
 
 const toolboxItem = [
   {
@@ -103,6 +105,7 @@ const hobbies=[
 
 ]
 export const AboutSection = () => {
+  const constrainRef=useRef(null)
   return (
   <div className="py-16 lg:py-28">
     <div className="container">
@@ -121,8 +124,8 @@ export const AboutSection = () => {
 
           <Card className="h-[320px]  md:col-span-3 lg:col-span-2">
             <CardHeader title="My Toolbox" description=" Explore the technologies and tools.  I use to craft exceptional digital experiences ."   />
-            <ToolBoxItem toolboxItem={toolboxItem}  />
-            <ToolBoxItem toolboxItem={toolboxItem} className="mt-6" itemsWrapperClassName="-translate-x-1/2" />
+            <ToolBoxItem toolboxItem={toolboxItem} itemsWrapperClassName="animate-move-left [animation-duration:30s]"  />
+            <ToolBoxItem toolboxItem={toolboxItem} className="mt-6" itemsWrapperClassName="-translate-x-1/2 animate-move-right [animation-duration:15s]" />
           </Card>
 
         </div>
@@ -131,29 +134,34 @@ export const AboutSection = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5 lg:grid-cols-3">
         <Card className="h-[320px] p-0 flex flex-col md:col-span-3 lg:col-span-2">
           <CardHeader className="px-6 py-6" title="Beyond the Code" description="Explore  my interests and hobbies beyond the digital experiences ." />
-          <div className="relative flex-1">
+          <div className="relative flex-1 " ref={constrainRef}>
             {hobbies.map((hobbies, i) => (
-              <div className="inline-flex items-center gap-2  rounded-full py-1.5 absolute px-6   bg-gradient-to-r from-emerald-300 to-sky-400" style={{
+
+              <motion.div className="inline-flex items-center gap-2  rounded-full py-1.5 absolute px-6   bg-gradient-to-r from-emerald-300 to-sky-400" style={{
                 left: hobbies.left,
                 top: hobbies.top,
 
-              }} key={i}>
+              }}
+              drag 
+              dragConstraints={constrainRef}
+              key={i}>
                 <span className="font-medium text-gray-950">{hobbies.title}</span>
                 <span>{hobbies.iconType}</span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </Card>
 
 
-        <Card className="h-[320px] p-0 relative md:col-span-2 lg:col-span-1">
-          <Image src={MapImage} className="h-full w-full object-cover object-left-top" />
+            <Card className="h-[320px] p-0 relative md:col-span-2 lg:col-span-1">
+              <Image src={MapImage} className="h-full w-full object-cover object-left-top" />
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-20 rounded-full bg-gradient-to-r from-emerald-300 to bg-sky-400 after:content-[''] after:absolute after:inset-0 after:outline after:outline-2 after:outline-offset-2 after:rounded-full after:outline-gray-950/30" >
-
-            <Image src={smileemoji} className="size-20" />
-          </div>
-        </Card>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-20 rounded-full after:content-[''] after:absolute after:inset-0 after:outline after:outline-2 after:outline-offset-2 after:rounded-full after:outline-gray-950/30" >
+                <div className="bg-gradient-to-r from-emerald-300 to bg-sky-400  absolute inset-0 -z-20 rounded-full animate-ping  [animation-duration:2s]"></div>
+                <div className="bg-gradient-to-r from-emerald-300 to bg-sky-400  absolute inset-0 -z-10 rounded-full"></div>
+                <Image src={smileemoji} className="size-20" />
+              </div>
+            </Card>
 
         </div>
       </div>
